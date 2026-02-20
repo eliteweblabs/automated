@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-  <strong>Automate any workflow. Record once, run on autopilot forever.</strong>
+  <strong>Automate any browser workflow. Record once, run on autopilot forever.</strong>
 </p>
 
 <p align="center">
@@ -21,7 +21,7 @@
 
 ---
 
-**Automated** is an open-source, AI-powered browser automation platform. Record a workflow once by interacting with your browser, and let the AI replay, adapt, and execute it on autopilot — triggered manually, via email, on a schedule, or through the API.
+**Automated** is an open-source, AI-powered browser automation tool. Record a workflow once by interacting with your browser, and let the AI replay, adapt, and execute it on autopilot - triggered manually, via email, on a schedule, or through the API.
 
 <p align="center">
 
