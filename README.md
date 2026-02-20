@@ -24,7 +24,9 @@
 **Automated** is an open-source, AI-powered browser automation platform. Record a workflow once by interacting with your browser, and let the AI replay, adapt, and execute it on autopilot — triggered manually, via email, on a schedule, or through the API.
 
 <p align="center">
-[sat-feb-14.webm](https://github.com/user-attachments/assets/3dd44b80-2ebb-477a-b5a6-171a2f3e1dae)
+
+https://github.com/user-attachments/assets/8f9ecb26-5b42-4b4c-a1ca-ab2ea2589992
+
 </p>
 
 ## Features
