@@ -85,6 +85,7 @@
     ],
     "icon": "apps/desktop/icon.png",
     "category": "Utility",
+    "maintainer": "Automated <contact@useautomated.com>",
     "artifactName": "${productName}-${version}-linux-${arch}.${ext}"
   },
   "dmg": {

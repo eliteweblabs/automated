@@ -25,7 +25,7 @@ const orderedFiles = [
 ];
 
 let combinedSchema = orderedFiles
-  .map((file) => fs.readFileSync(path.join(sourceDir, file), 'utf8').trimEnd())
+  .map((file) => fs.readFileSync(path.join(sourceDir, file), 'utf8').replace(/\r\n/g, '\n').trimEnd())
   .join('\n\n');
 
 const originalSchema = combinedSchema;
