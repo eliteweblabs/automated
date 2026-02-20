@@ -1,0 +1,13 @@
+model BrowserSession {
+  id                   String   @id @default(uuid())
+  browserbaseSessionId String   @unique
+  userId               Int
+  user                 User     @relation(fields: [userId], references: [id])
+  workflowId           String?
+  lastUsedAt           DateTime @default(now())
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  @@index([userId])
+  @@index([workflowId])
+}

@@ -1,0 +1,29 @@
+{
+  "appId": "com.useautomated.desktop",
+  "productName": "Automated",
+  "asar": false,
+  "directories": {
+    "output": "dist/desktop"
+  },
+  "files": [
+    "apps/desktop/**/*",
+    "apps/frontend/.next/**/*",
+    "apps/frontend/public/**/*",
+    "apps/frontend/next.config.js",
+    "dist/apps/backend/**/*",
+    "node_modules/**/*",
+    "package.json"
+  ],
+  "extraMetadata": {
+    "main": "apps/desktop/main.cjs"
+  },
+  "mac": {
+    "target": [
+      "dmg"
+    ],
+    "category": "public.app-category.productivity"
+  },
+  "dmg": {
+    "artifactName": "${productName}-${version}-${arch}.${ext}"
+  }
+}

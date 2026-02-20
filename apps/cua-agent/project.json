@@ -1,0 +1,28 @@
+{
+  "name": "cua-agent",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "cua-agent",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{workspaceRoot}/dist/cua-agent"],
+      "options": {
+        "outputPath": "dist/cua-agent",
+        "main": "cua-agent/main.ts",
+        "tsConfig": "cua-agent/tsconfig.app.json",
+        "assets": []
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "cua-agent:build",
+        "runBuildTargetDependencies": false
+      }
+    }
+  },
+  "tags": []
+}

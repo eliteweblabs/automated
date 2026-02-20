@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Workflow"
+ADD COLUMN IF NOT EXISTS "inputs" TEXT[] NOT NULL DEFAULT ARRAY[]::TEXT[];

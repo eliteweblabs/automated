@@ -1,0 +1,18 @@
+model User {
+  id                 Int              @id @default(autoincrement())
+  email              String           @unique
+  name               String?
+  browserMinutesUsed Float            @default(0)
+  browserSessions    BrowserSession[]
+  workflows          Workflow[]
+  userContext        UserContext?
+}
+
+model UserContext {
+  id                   Int      @id @default(autoincrement())
+  userId               Int      @unique
+  user                 User     @relation(fields: [userId], references: [id])
+  browserbaseContextId String
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}

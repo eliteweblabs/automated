@@ -1,0 +1,24 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: apps/backend/Dockerfile
+    ports:
+      - '8080:8080'
+    environment:
+      DATABASE_URL: file:/workspace/data/local.db
+    env_file:
+      - .env
+    volumes:
+      - ./data:/workspace/data
+
+  frontend:
+    build:
+      context: .
+      dockerfile: apps/frontend/Dockerfile
+    ports:
+      - '3000:3000'
+    depends_on:
+      - backend
+    env_file:
+      - .env

@@ -1,0 +1,158 @@
+enum WorkflowStepType {
+  navigate
+  tab_navigate
+  save
+  step
+  extract
+  loop
+  conditional
+}
+
+enum WorkflowStepBranch {
+  main
+  loop
+  true
+  false
+}
+
+enum WorkflowRunStatus {
+  running
+  completed
+  failed
+  stopped
+}
+
+enum WorkflowRunLogLevel {
+  info
+  warn
+  error
+}
+
+enum WorkflowScheduleType {
+  daily
+  interval
+}
+
+enum InboundEmailStatus {
+  received
+  rejected
+  triggered
+  failed
+}
+
+model Workflow {
+  id          String         @id @default(uuid())
+  humanId     String         @unique
+  title       String
+  userId      Int
+  user        User           @relation(fields: [userId], references: [id])
+  sessionId   String?
+  startingUrl String?
+  inputs      String[]       @default([])
+  steps       WorkflowStep[]
+  runs        WorkflowRun[]
+  schedule    WorkflowSchedule?
+  inboundEmails InboundEmail[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+}
+
+model WorkflowStep {
+  id           String             @id @default(uuid())
+  workflowId   String
+  workflow     Workflow           @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+  parentStepId String?
+  parentStep   WorkflowStep?      @relation("WorkflowStepHierarchy", fields: [parentStepId], references: [id], onDelete: Cascade)
+  childSteps   WorkflowStep[]     @relation("WorkflowStepHierarchy")
+  branch       WorkflowStepBranch @default(main)
+  stepNumber   Int
+  type         WorkflowStepType
+  description  String?            @db.Text
+  url          String?
+  dataSchema   String?            @db.Text
+  condition    String?            @db.Text
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+
+  @@unique([workflowId, parentStepId, branch, stepNumber])
+  @@index([workflowId])
+  @@index([parentStepId])
+}
+
+model WorkflowRun {
+  id          String            @id @default(uuid())
+  workflowId  String
+  workflow    Workflow          @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+  status      WorkflowRunStatus @default(running)
+  startedAt   DateTime          @default(now())
+  completedAt DateTime?
+  error       String?           @db.Text
+  sessionId   String?
+  output         String?        @db.Text
+  outputExtension String?
+  logs        WorkflowRunLog[]
+  inboundEmails InboundEmail[]
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  @@index([workflowId])
+  @@index([status])
+  @@index([startedAt])
+}
+
+model WorkflowRunLog {
+  id        String              @id @default(uuid())
+  runId     String
+  run       WorkflowRun         @relation(fields: [runId], references: [id], onDelete: Cascade)
+  level     WorkflowRunLogLevel
+  message   String              @db.Text
+  eventType String?             @db.Text
+  data      Json?
+  timestamp DateTime            @default(now())
+
+  @@index([runId, timestamp])
+  @@index([runId, eventType, timestamp])
+}
+
+model InboundEmail {
+  id         String             @id @default(uuid())
+  resendId   String             @unique
+  workflowId String
+  workflow   Workflow           @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+  runId      String?
+  run        WorkflowRun?       @relation(fields: [runId], references: [id], onDelete: SetNull)
+  from       String
+  to         String[]
+  subject    String?
+  messageId  String?
+  receivedAt DateTime?
+  html       String?            @db.Text
+  text       String?            @db.Text
+  headers    Json?
+  attachments Json?
+  status     InboundEmailStatus @default(received)
+  error      String?            @db.Text
+  createdAt  DateTime           @default(now())
+  updatedAt  DateTime           @updatedAt
+
+  @@index([workflowId])
+  @@index([runId])
+}
+
+model WorkflowSchedule {
+  id              String               @id @default(uuid())
+  workflowId      String               @unique
+  workflow        Workflow             @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+  enabled         Boolean              @default(true)
+  type            WorkflowScheduleType
+  timezone        String
+  dailyTime       String?
+  dailyDays       Int[]
+  intervalMinutes Int?
+  nextRunAt       DateTime?
+  lastRunAt       DateTime?
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
+
+  @@index([enabled, nextRunAt])
+}

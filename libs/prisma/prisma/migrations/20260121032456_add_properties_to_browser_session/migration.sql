@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "BrowserSession" ADD COLUMN     "lastUsedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;

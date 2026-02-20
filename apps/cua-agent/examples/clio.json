@@ -1,0 +1,36 @@
+{
+  "name": "Copy Contacts from Google to Clio",
+  "startingUrl": "https://mail.google.com/mail/u/0/#inbox",
+  "steps": [
+    {
+      "type": "loop",
+      "description": "First 50 emails",
+      "steps": [
+        {
+          "type": "step",
+          "description": "Press on the email"
+        },
+        {
+          "type": "extract",
+          "description": "Extract the name and email address"
+        },
+        {
+          "type": "tab_navigate",
+          "url": "https://app.clio.com/nc/#/contacts"
+        },
+        {
+          "type": "step",
+          "description": "Press the \"New Person\" button"
+        },
+        {
+          "type": "step",
+          "description": "Fill in the First Name, Last Name and Email address in the form"
+        },
+        {
+          "type": "step",
+          "description": "Press \"Save\" to add the contact"
+        }
+      ]
+    }
+  ]
+}
